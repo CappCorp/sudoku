@@ -11,6 +11,12 @@ public class Box extends Group
             {
                 return new Box(cardinal);
             }
+
+            @Override
+            public Class<Box> getClazz()
+            {
+                return Box.class;
+            }
         });
     }
 

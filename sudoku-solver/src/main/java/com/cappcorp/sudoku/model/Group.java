@@ -1,16 +1,20 @@
 package com.cappcorp.sudoku.model;
 
+import java.lang.reflect.Array;
+
 public abstract class Group
 {
     protected static interface GroupBuilder<G extends Group>
     {
         G createGroup(int cardinal);
+
+        Class<G> getClazz();
     }
 
     protected static <G extends Group> G[] createGroups(int cardinal, GroupBuilder<G> groupBuilder)
     {
         @SuppressWarnings("unchecked")
-        G[] groups = (G[]) new Object[cardinal];
+        G[] groups = (G[]) Array.newInstance(groupBuilder.getClazz(), cardinal);
         for (int i = 0; i < cardinal; i++)
         {
             groups[i] = groupBuilder.createGroup(cardinal);

@@ -11,6 +11,12 @@ public class Column extends Group
             {
                 return new Column(cardinal);
             }
+
+            @Override
+            public Class<Column> getClazz()
+            {
+                return Column.class;
+            }
         });
     }
 

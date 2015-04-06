@@ -47,6 +47,7 @@ public class Grid
                 int boxPosition = computeBoxPosition(sqrt, row, col);
 
                 Cell cell = new Cell(cardinal);
+                cells[row][col] = cell;
                 rows[row].addCell(col, cell);
                 colulmns[col].addCell(row, cell);
                 boxes[box].addCell(boxPosition, cell);
