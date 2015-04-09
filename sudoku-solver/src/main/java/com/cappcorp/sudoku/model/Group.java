@@ -1,36 +1,34 @@
 package com.cappcorp.sudoku.model;
 
-import java.lang.reflect.Array;
-
-public abstract class Group
+public class Group
 {
-    protected static interface GroupBuilder<G extends Group>
+    public static Group[] createGroups(int cardinal)
     {
-        G createGroup(int cardinal);
-
-        Class<G> getClazz();
-    }
-
-    protected static <G extends Group> G[] createGroups(int cardinal, GroupBuilder<G> groupBuilder)
-    {
-        @SuppressWarnings("unchecked")
-        G[] groups = (G[]) Array.newInstance(groupBuilder.getClazz(), cardinal);
+        Group[] groups = new Group[cardinal];
         for (int i = 0; i < cardinal; i++)
         {
-            groups[i] = groupBuilder.createGroup(cardinal);
+            groups[i] = new Group(cardinal);
         }
         return groups;
     }
 
     private final Cell[] cells;
 
-    protected Group(int cardinal)
+    public Group(int cardinal)
     {
         this.cells = new Cell[cardinal];
     }
 
-    public void addCell(int position, Cell cell)
+    public void setCell(int position, Cell cell)
     {
         cells[position] = cell;
+    }
+
+    public void removeValues(int... values)
+    {
+        for (Cell cell : cells)
+        {
+            cell.removeValues(values);
+        }
     }
 }

@@ -2,21 +2,21 @@ package com.cappcorp.sudoku.model;
 
 public class Grid
 {
-    static int computeBoxPosition(int sqrt, int row, int col)
-    {
-        return (row % sqrt) * sqrt + col % sqrt;
-    }
-
     static int computeBoxNumber(int sqrt, int row, int col)
     {
         return col % sqrt + sqrt * (row % sqrt);
     }
 
+    static int computeBoxPosition(int sqrt, int row, int col)
+    {
+        return (row % sqrt) * sqrt + col % sqrt;
+    }
+
     private final Universe universe;
     private final Cell[][] cells;
-    private final Row[] rows;
-    private final Column[] colulmns;
-    private final Box[] boxes;
+    private final Group[] rows;
+    private final Group[] columns;
+    private final Group[] boxes;
 
     public Grid(int cardinal)
     {
@@ -35,9 +35,9 @@ public class Grid
         int sqrt = universe.getSqrt();
 
         this.cells = new Cell[cardinal][cardinal];
-        this.rows = Row.createRows(cardinal);
-        this.colulmns = Column.createColumns(cardinal);
-        this.boxes = Box.createBoxes(cardinal);
+        this.rows = Group.createGroups(cardinal);
+        this.columns = Group.createGroups(cardinal);
+        this.boxes = Group.createGroups(cardinal);
 
         for (int row = 0; row < cardinal; row++)
         {
@@ -48,11 +48,26 @@ public class Grid
 
                 Cell cell = new Cell(cardinal);
                 cells[row][col] = cell;
-                rows[row].addCell(col, cell);
-                colulmns[col].addCell(row, cell);
-                boxes[box].addCell(boxPosition, cell);
+                rows[row].setCell(col, cell);
+                columns[col].setCell(row, cell);
+                boxes[box].setCell(boxPosition, cell);
             }
         }
+    }
+
+    public Group getRow(int row)
+    {
+        return rows[row];
+    }
+
+    public Group getColumn(int col)
+    {
+        return columns[col];
+    }
+
+    public Group getBox(int row, int col)
+    {
+        return boxes[computeBoxNumber(universe.getSqrt(), row, col)];
     }
 
     public void setCell(int row, int col, int value)
