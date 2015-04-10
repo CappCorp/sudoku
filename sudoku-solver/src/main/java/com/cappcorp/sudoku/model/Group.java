@@ -1,12 +1,10 @@
 package com.cappcorp.sudoku.model;
 
-public class Group
-{
-    public static Group[] createGroups(int cardinal)
-    {
+public class Group {
+
+    public static Group[] createGroups(int cardinal) {
         Group[] groups = new Group[cardinal];
-        for (int i = 0; i < cardinal; i++)
-        {
+        for (int i = 0; i < cardinal; i++) {
             groups[i] = new Group(cardinal);
         }
         return groups;
@@ -14,20 +12,16 @@ public class Group
 
     private final Cell[] cells;
 
-    public Group(int cardinal)
-    {
+    public Group(int cardinal) {
         this.cells = new Cell[cardinal];
     }
 
-    public void setCell(int position, Cell cell)
-    {
+    public void setCell(int position, Cell cell) {
         cells[position] = cell;
     }
 
-    public void removeValues(int... values)
-    {
-        for (Cell cell : cells)
-        {
+    public void removeValues(int... values) {
+        for (Cell cell : cells) {
             cell.removeValues(values);
         }
     }

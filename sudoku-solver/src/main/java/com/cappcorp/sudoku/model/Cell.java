@@ -1,21 +1,18 @@
 package com.cappcorp.sudoku.model;
 
-public class Cell
-{
+public class Cell {
+
     private final PossibleValues possibleValues;
 
-    public Cell(int cardinal)
-    {
+    public Cell(int cardinal) {
         this.possibleValues = new PossibleValues(cardinal);
     }
 
-    public void setValue(int value)
-    {
+    public void setValue(int value) {
         possibleValues.set(value);
     }
 
-    public void removeValues(int... values)
-    {
+    public void removeValues(int... values) {
         possibleValues.remove(values);
     }
 }
