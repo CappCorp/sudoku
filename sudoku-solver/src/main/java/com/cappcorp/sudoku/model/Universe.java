@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class Universe {
 
+    public static final char BLANK = ' ';
+
     static int checkAndComputeSqrt(int cardinal) {
         if (cardinal <= 0) {
             throw universeCardinalException();
@@ -40,6 +42,9 @@ public class Universe {
         sortedValues = new ArrayList<>(characters.length);
         uniqueValues = new HashSet<>(characters.length);
         for (char c : characters) {
+            if (c == BLANK) {
+                throw new IllegalArgumentException("Space character is not allowed in universe");
+            }
             Character character = Character.valueOf(c);
             if (!uniqueValues.add(character)) {
                 throw new IllegalArgumentException("Duplicated character found in universe: " + c);

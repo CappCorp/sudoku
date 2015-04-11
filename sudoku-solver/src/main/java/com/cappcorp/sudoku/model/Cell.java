@@ -15,4 +15,8 @@ public class Cell {
     public void removeValues(int... values) {
         possibleValues.remove(values);
     }
+
+    public Integer getValueIfResolved() {
+        return possibleValues.getValueIfResolved();
+    }
 }

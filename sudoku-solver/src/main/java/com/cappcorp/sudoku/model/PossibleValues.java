@@ -52,4 +52,8 @@ public class PossibleValues {
     public boolean isResolved() {
         return possibleValues.size() == 1;
     }
+
+    public Integer getValueIfResolved() {
+        return possibleValues.size() == 1 ? possibleValues.iterator().next() : null;
+    }
 }

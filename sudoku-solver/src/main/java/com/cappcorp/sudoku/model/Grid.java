@@ -2,11 +2,11 @@ package com.cappcorp.sudoku.model;
 
 public class Grid {
 
-    static int computeBoxNumber(int sqrt, int row, int col) {
+    private static int computeBoxNumber(int sqrt, int row, int col) {
         return col % sqrt + sqrt * (row % sqrt);
     }
 
-    static int computeBoxPosition(int sqrt, int row, int col) {
+    private static int computeBoxPosition(int sqrt, int row, int col) {
         return (row % sqrt) * sqrt + col % sqrt;
     }
 
@@ -46,6 +46,14 @@ public class Grid {
                 boxes[box].setCell(boxPosition, cell);
             }
         }
+    }
+
+    public Universe getUniverse() {
+        return universe;
+    }
+
+    public Cell getCell(int row, int col) {
+        return cells[row][col];
     }
 
     public Group getRow(int row) {
