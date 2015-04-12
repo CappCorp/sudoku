@@ -18,7 +18,7 @@ class Cell {
         possibleValues.setValues(values);
     }
 
-    void removeValues(int... values) {
+    void removePossibleValues(int... values) {
         possibleValues.removeValues(values);
     }
 

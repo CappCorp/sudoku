@@ -18,20 +18,13 @@ class PossibleValues {
     }
 
     Set<Integer> getPossibleValues() {
-        return Collections.unmodifiableSet(possibleValues);
+        return possibleValues.isEmpty() ? Collections.emptySet() : Collections.unmodifiableSet(possibleValues);
     }
 
     void removeValues(int... values) {
         for (int value : values) {
             checkCardinal(value);
             possibleValues.remove(Integer.valueOf(value));
-        }
-    }
-
-    void addValues(int... values) {
-        for (int value : values) {
-            checkCardinal(value);
-            possibleValues.add(Integer.valueOf(value));
         }
     }
 

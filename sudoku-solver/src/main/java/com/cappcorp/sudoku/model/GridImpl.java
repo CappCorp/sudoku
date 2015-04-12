@@ -12,6 +12,14 @@ public class GridImpl implements Grid {
         return (row % sqrt) * sqrt + col % sqrt;
     }
 
+    static Group[] createGroups(int cardinal) {
+        Group[] groups = new Group[cardinal];
+        for (int i = 0; i < cardinal; i++) {
+            groups[i] = new Group(cardinal);
+        }
+        return groups;
+    }
+
     private final Universe universe;
     private final Cell[][] cells;
     private final Group[] rows;
@@ -32,9 +40,9 @@ public class GridImpl implements Grid {
         int sqrt = universe.getSqrt();
 
         this.cells = new Cell[cardinal][cardinal];
-        this.rows = Group.createGroups(cardinal);
-        this.columns = Group.createGroups(cardinal);
-        this.boxes = Group.createGroups(cardinal);
+        this.rows = createGroups(cardinal);
+        this.columns = createGroups(cardinal);
+        this.boxes = createGroups(cardinal);
 
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
@@ -72,7 +80,7 @@ public class GridImpl implements Grid {
 
     @Override
     public void removeCellPossibleValues(int row, int col, int... values) {
-        cells[row][col].removeValues(values);
+        cells[row][col].removePossibleValues(values);
     }
 
     @Override

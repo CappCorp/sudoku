@@ -66,6 +66,10 @@ public class Universe {
     }
 
     public int map(char value) {
-        return sortedValues.indexOf(Character.valueOf(value));
+        int position = sortedValues.indexOf(Character.valueOf(value));
+        if (position == -1) {
+            throw new IllegalArgumentException("Character [" + value + "] is not part of the universe.");
+        }
+        return position;
     }
 }
