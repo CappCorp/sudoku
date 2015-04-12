@@ -1,8 +1,11 @@
 package com.cappcorp.sudoku.model;
 
-public class Group {
+import java.util.Collections;
+import java.util.Set;
 
-    public static Group[] createGroups(int cardinal) {
+class Group {
+
+    static Group[] createGroups(int cardinal) {
         Group[] groups = new Group[cardinal];
         for (int i = 0; i < cardinal; i++) {
             groups[i] = new Group(cardinal);
@@ -12,17 +15,27 @@ public class Group {
 
     private final Cell[] cells;
 
-    public Group(int cardinal) {
+    Group(int cardinal) {
         this.cells = new Cell[cardinal];
     }
 
-    public void setCell(int position, Cell cell) {
+    void setCell(int position, Cell cell) {
         cells[position] = cell;
     }
 
-    public void removeValues(int... values) {
+    void removePossibleValues(int... values) {
         for (Cell cell : cells) {
-            cell.removeValues(values);
+            if (!cell.isResolved()) {
+                cell.removeValues(values);
+            }
         }
+    }
+
+    Set<Integer> getUnresolvedValues() {
+        PossibleValues possibleValues = new PossibleValues(cells.length);
+        for (Cell cell : cells) {
+            possibleValues.removeValues(cell.getValueIfResolved().intValue());
+        }
+        return possibleValues.count() == 0 ? Collections.emptySet() : possibleValues.getPossibleValues();
     }
 }

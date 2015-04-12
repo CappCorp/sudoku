@@ -1,22 +1,32 @@
 package com.cappcorp.sudoku.model;
 
-public class Cell {
+import java.util.Set;
+
+class Cell {
 
     private final PossibleValues possibleValues;
 
-    public Cell(int cardinal) {
+    Cell(int cardinal) {
         this.possibleValues = new PossibleValues(cardinal);
     }
 
-    public void setValue(int value) {
-        possibleValues.set(value);
+    Set<Integer> getPossibleValues() {
+        return possibleValues.getPossibleValues();
     }
 
-    public void removeValues(int... values) {
-        possibleValues.remove(values);
+    void setPossibleValues(int... values) {
+        possibleValues.setValues(values);
     }
 
-    public Integer getValueIfResolved() {
+    void removeValues(int... values) {
+        possibleValues.removeValues(values);
+    }
+
+    Integer getValueIfResolved() {
         return possibleValues.getValueIfResolved();
+    }
+
+    boolean isResolved() {
+        return possibleValues.isResolved();
     }
 }

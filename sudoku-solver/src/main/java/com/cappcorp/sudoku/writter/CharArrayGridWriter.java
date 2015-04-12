@@ -17,7 +17,7 @@ public class CharArrayGridWriter implements GridWriter {
             values[row] = new char[cardinal];
 
             for (int col = 0; col < cardinal; col++) {
-                Integer valueIfResolved = grid.getCell(row, col).getValueIfResolved();
+                Integer valueIfResolved = grid.getCellValueIfResolved(row, col);
                 char charValue = valueIfResolved == null ? Universe.BLANK : universe.map(valueIfResolved.intValue());
                 values[row][col] = charValue;
             }

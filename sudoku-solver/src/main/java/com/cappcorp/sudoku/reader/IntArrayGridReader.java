@@ -1,6 +1,7 @@
 package com.cappcorp.sudoku.reader;
 
 import com.cappcorp.sudoku.model.Grid;
+import com.cappcorp.sudoku.model.GridImpl;
 import com.cappcorp.sudoku.model.Universe;
 
 /**
@@ -40,13 +41,13 @@ public class IntArrayGridReader implements GridReader {
 
     @Override
     public Grid readGrid() {
-        Grid grid = new Grid(universe);
+        Grid grid = new GridImpl(universe);
         int cardinal = universe.getCardinal();
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
                 int value = values[row][col];
                 if (value != UNKNOWN) {
-                    grid.setCell(row, col, value);
+                    grid.setCellPossibleValues(row, col, value);
                 }
             }
         }

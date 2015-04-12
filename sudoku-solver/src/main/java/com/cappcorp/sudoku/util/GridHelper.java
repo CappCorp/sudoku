@@ -24,7 +24,7 @@ public enum GridHelper {
             for (int col = 0; col < cardinal; col++) {
                 checkAndDisplayColSeparator(builder, sqrt, col);
 
-                Integer valueIfResolved = grid.getCell(row, col).getValueIfResolved();
+                Integer valueIfResolved = grid.getCellValueIfResolved(row, col);
                 char displayedValue = valueIfResolved == null ? Universe.BLANK : universe.map(valueIfResolved.intValue());
                 builder.append(displayedValue).append(SPACE);
             }

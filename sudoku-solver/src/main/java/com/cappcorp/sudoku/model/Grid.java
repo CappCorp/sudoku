@@ -1,79 +1,29 @@
 package com.cappcorp.sudoku.model;
 
-public class Grid {
+import java.util.Set;
 
-    private static int computeBoxNumber(int sqrt, int row, int col) {
-        return col % sqrt + sqrt * (row % sqrt);
-    }
+public interface Grid {
 
-    private static int computeBoxPosition(int sqrt, int row, int col) {
-        return (row % sqrt) * sqrt + col % sqrt;
-    }
+    Universe getUniverse();
 
-    private final Universe universe;
-    private final Cell[][] cells;
-    private final Group[] rows;
-    private final Group[] columns;
-    private final Group[] boxes;
+    Integer getCellValueIfResolved(int row, int col);
 
-    public Grid(int cardinal) {
-        this(new Universe(cardinal));
-    }
+    Set<Integer> getCellPossibleValues(int row, int col);
 
-    public Grid(char[] characters) {
-        this(new Universe(characters));
-    }
+    void setCellPossibleValues(int row, int col, int... values);
 
-    public Grid(Universe universe) {
-        this.universe = universe;
-        int cardinal = universe.getCardinal();
-        int sqrt = universe.getSqrt();
+    void removeCellPossibleValues(int row, int col, int... values);
 
-        this.cells = new Cell[cardinal][cardinal];
-        this.rows = Group.createGroups(cardinal);
-        this.columns = Group.createGroups(cardinal);
-        this.boxes = Group.createGroups(cardinal);
+    Set<Integer> getRowUnresolvedValues(int row);
 
-        for (int row = 0; row < cardinal; row++) {
-            for (int col = 0; col < cardinal; col++) {
-                int box = computeBoxNumber(sqrt, row, col);
-                int boxPosition = computeBoxPosition(sqrt, row, col);
+    void removeRowPossibleValues(int row, int... values);
 
-                Cell cell = new Cell(cardinal);
-                cells[row][col] = cell;
-                rows[row].setCell(col, cell);
-                columns[col].setCell(row, cell);
-                boxes[box].setCell(boxPosition, cell);
-            }
-        }
-    }
+    Set<Integer> getColumnUnresolvedValues(int col);
 
-    public Universe getUniverse() {
-        return universe;
-    }
+    void removeColumnPossibleValues(int col, int... values);
 
-    public Cell getCell(int row, int col) {
-        return cells[row][col];
-    }
+    Set<Integer> getBoxUnresolvedValues(int row, int col);
 
-    public Group getRow(int row) {
-        return rows[row];
-    }
-
-    public Group getColumn(int col) {
-        return columns[col];
-    }
-
-    public Group getBox(int row, int col) {
-        return boxes[computeBoxNumber(universe.getSqrt(), row, col)];
-    }
-
-    public void setCell(int row, int col, int value) {
-        cells[row][col].setValue(value);
-    }
-
-    public void setCell(int row, int col, char value) {
-        setCell(row, col, universe.map(value));
-    }
+    void removeBoxPossibleValues(int row, int col, int... values);
 
 }

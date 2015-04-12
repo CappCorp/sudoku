@@ -1,14 +1,15 @@
 package com.cappcorp.sudoku.model;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PossibleValues {
+class PossibleValues {
 
     private final int cardinal;
     private final Set<Integer> possibleValues;
 
-    public PossibleValues(int cardinal) {
+    PossibleValues(int cardinal) {
         this.cardinal = cardinal;
         possibleValues = new HashSet<>(cardinal);
         for (int i = 0; i < cardinal; i++) {
@@ -16,24 +17,30 @@ public class PossibleValues {
         }
     }
 
-    public void remove(int... values) {
+    Set<Integer> getPossibleValues() {
+        return Collections.unmodifiableSet(possibleValues);
+    }
+
+    void removeValues(int... values) {
         for (int value : values) {
             checkCardinal(value);
             possibleValues.remove(Integer.valueOf(value));
         }
     }
 
-    public void add(int... values) {
+    void addValues(int... values) {
         for (int value : values) {
             checkCardinal(value);
             possibleValues.add(Integer.valueOf(value));
         }
     }
 
-    public void set(int value) {
-        checkCardinal(value);
+    void setValues(int... values) {
         possibleValues.clear();
-        possibleValues.add(Integer.valueOf(value));
+        for (int value : values) {
+            checkCardinal(value);
+            possibleValues.add(Integer.valueOf(value));
+        }
     }
 
     private void checkCardinal(int value) {
@@ -45,15 +52,15 @@ public class PossibleValues {
         }
     }
 
-    public int count() {
+    int count() {
         return possibleValues.size();
     }
 
-    public boolean isResolved() {
+    boolean isResolved() {
         return possibleValues.size() == 1;
     }
 
-    public Integer getValueIfResolved() {
+    Integer getValueIfResolved() {
         return possibleValues.size() == 1 ? possibleValues.iterator().next() : null;
     }
 }
