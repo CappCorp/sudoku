@@ -42,7 +42,7 @@ public class ListeningGrid implements Grid {
     @Override
     public void setCellPossibleValues(int row, int col, int... values) {
         grid.setCellPossibleValues(row, col, values);
-        listeners.stream().forEach(l -> l.onSetCellValues(row, col, values));
+        listeners.stream().forEach(l -> l.onSetCellPossibleValues(row, col, values));
     }
 
     @Override
