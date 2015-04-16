@@ -63,6 +63,15 @@ public class GridImpl implements Grid {
         return universe;
     }
 
+    public void setInitialValue(int row, int col, int value) {
+        cells[row][col].setPossibleValues(value);
+    }
+
+    @Override
+    public boolean isResolved(int row, int col) {
+        return cells[row][col].isResolved();
+    }
+
     @Override
     public Integer getCellValueIfResolved(int row, int col) {
         return cells[row][col].getValueIfResolved();

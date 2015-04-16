@@ -32,6 +32,11 @@ public class ListeningGridTest {
     }
 
     @Test
+    public void isResolved_noCallback() {
+        listeningGrid.isResolved(5, 3);
+    }
+
+    @Test
     public void getCellValueIfResolved_noCallback() {
         listeningGrid.getCellPossibleValues(5, 3);
     }

@@ -40,6 +40,12 @@ public class StatGrid implements Grid {
     }
 
     @Override
+    public boolean isResolved(int row, int col) {
+        addRead();
+        return grid.isResolved(row, col);
+    }
+
+    @Override
     public Integer getCellValueIfResolved(int row, int col) {
         addRead();
         return grid.getCellValueIfResolved(row, col);

@@ -30,6 +30,11 @@ public class ListeningGrid implements Grid {
     }
 
     @Override
+    public boolean isResolved(int row, int col) {
+        return grid.isResolved(row, col);
+    }
+
+    @Override
     public Integer getCellValueIfResolved(int row, int col) {
         return grid.getCellValueIfResolved(row, col);
     }

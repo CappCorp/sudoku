@@ -41,13 +41,13 @@ public class IntArrayGridReader implements GridReader {
 
     @Override
     public Grid readGrid() {
-        Grid grid = new GridImpl(universe);
+        GridImpl grid = new GridImpl(universe);
         int cardinal = universe.getCardinal();
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
                 int value = values[row][col];
                 if (value != UNKNOWN) {
-                    grid.setCellPossibleValues(row, col, value);
+                    grid.setInitialValue(row, col, value);
                 }
             }
         }

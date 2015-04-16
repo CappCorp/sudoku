@@ -6,6 +6,8 @@ public interface Grid {
 
     Universe getUniverse();
 
+    boolean isResolved(int row, int col);
+
     Integer getCellValueIfResolved(int row, int col);
 
     Set<Integer> getCellPossibleValues(int row, int col);
