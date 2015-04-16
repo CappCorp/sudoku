@@ -5,45 +5,25 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.cappcorp.sudoku.model.Grid;
+import com.cappcorp.sudoku.model.WritableGrid;
 
-public class ListeningGridTest {
+public class ListeningGridImplTest {
 
-    private Grid grid;
+    private WritableGrid grid;
     private GridListener gridListener;
-    private ListeningGrid listeningGrid;
+    private ListeningGridImpl listeningGrid;
 
     @Before
     public void setUp() {
-        grid = Mockito.mock(Grid.class);
+        grid = Mockito.mock(WritableGrid.class);
         gridListener = Mockito.mock(GridListener.class);
-        listeningGrid = new ListeningGrid(grid);
+        listeningGrid = new ListeningGridImpl(grid);
         listeningGrid.addListener(gridListener);
     }
 
     @After
     public void tearDown() {
         Mockito.verifyNoMoreInteractions(gridListener);
-    }
-
-    @Test
-    public void getUniverse_noCallback() {
-        listeningGrid.getUniverse();
-    }
-
-    @Test
-    public void isResolved_noCallback() {
-        listeningGrid.isResolved(5, 3);
-    }
-
-    @Test
-    public void getCellValueIfResolved_noCallback() {
-        listeningGrid.getCellPossibleValues(5, 3);
-    }
-
-    @Test
-    public void getCellPossibleValues_noCallback() {
-        listeningGrid.getCellPossibleValues(5, 3);
     }
 
     @Test
@@ -59,30 +39,15 @@ public class ListeningGridTest {
     }
 
     @Test
-    public void getRowUnresolvedValues_noCallback() {
-        listeningGrid.getRowUnresolvedValues(5);
-    }
-
-    @Test
     public void removeRowPossibleValues_callback() {
         listeningGrid.removeRowPossibleValues(5, 1, 2, 7);
         Mockito.verify(gridListener).onRemoveRowPossibleValues(5, 1, 2, 7);
     }
 
     @Test
-    public void getColumnUnresolvedValues_noCallback() {
-        listeningGrid.getColumnUnresolvedValues(3);
-    }
-
-    @Test
     public void removeColumnPossibleValues_callback() {
         listeningGrid.removeColumnPossibleValues(3, 1, 2, 7);
         Mockito.verify(gridListener).onRemoveColumnPossibleValues(3, 1, 2, 7);
-    }
-
-    @Test
-    public void getBoxUnresolvedValues_noCallback() {
-        listeningGrid.getBoxUnresolvedValues(5, 3);
     }
 
     @Test
