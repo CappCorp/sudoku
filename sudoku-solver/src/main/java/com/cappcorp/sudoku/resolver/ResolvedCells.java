@@ -1,7 +1,9 @@
 package com.cappcorp.sudoku.resolver;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import com.cappcorp.sudoku.listener.GridListener;
 import com.cappcorp.sudoku.model.ReadableGrid;
@@ -12,12 +14,14 @@ public class ResolvedCells implements GridListener {
     private final ReadableGrid grid;
     private final CellKeys keys;
     private final Map<CellKey, Integer> resolvedCells;
+    private final Queue<CellKey> newResolvedKeys;
 
     public ResolvedCells(ReadableGrid grid) {
         this.grid = grid;
         int cardinal = grid.getUniverse().getCardinal();
         this.keys = new CellKeys(cardinal);
         this.resolvedCells = new HashMap<>();
+        this.newResolvedKeys = new LinkedList<CellKey>();
 
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
@@ -82,6 +86,7 @@ public class ResolvedCells implements GridListener {
             CellKey key = keys.getKey(row, col);
             if (!resolvedCells.containsKey(key)) {
                 resolvedCells.put(key, Integer.valueOf(values[0]));
+                newResolvedKeys.add(key);
             }
         }
     }
@@ -102,7 +107,11 @@ public class ResolvedCells implements GridListener {
         Integer resolvedValue = grid.getCellValueIfResolved(row, col);
         if (resolvedValue != null) {
             resolvedCells.put(key, resolvedValue);
+            newResolvedKeys.add(key);
         }
     }
 
+    public CellKey consumeNextNewResolvedKey() {
+        return newResolvedKeys.poll();
+    }
 }
