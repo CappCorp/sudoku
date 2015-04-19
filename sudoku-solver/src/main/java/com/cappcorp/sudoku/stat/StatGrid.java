@@ -105,4 +105,8 @@ public class StatGrid implements Grid {
         grid.removeBoxPossibleValues(row, col, values);
     }
 
+    @Override
+    public String toString() {
+        return grid.toString();
+    }
 }

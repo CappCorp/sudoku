@@ -2,7 +2,7 @@ package com.cappcorp.sudoku.reader;
 
 import com.cappcorp.sudoku.model.Grid;
 
-public interface GridReader {
+public interface GridReader<T> {
 
-    Grid readGrid();
+    Grid readGrid(T grid);
 }

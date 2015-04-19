@@ -1,5 +1,6 @@
 package com.cappcorp.sudoku.model;
 
+import java.util.Arrays;
 import java.util.Set;
 
 class Group {
@@ -27,5 +28,13 @@ class Group {
 
     Set<Integer> getUnresolvedValues() {
         return possibleValues.getPossibleValues();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Cells: ").append(Arrays.asList(cells));
+        builder.append(", PossibleValues: ").append(possibleValues);
+        return builder.toString();
     }
 }

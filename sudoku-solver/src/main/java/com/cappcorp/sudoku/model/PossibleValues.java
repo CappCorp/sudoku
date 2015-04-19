@@ -56,4 +56,10 @@ class PossibleValues {
     Integer getValueIfResolved() {
         return possibleValues.size() == 1 ? possibleValues.iterator().next() : null;
     }
+
+    @Override
+    public String toString() {
+        return possibleValues.toString();
+    }
+
 }

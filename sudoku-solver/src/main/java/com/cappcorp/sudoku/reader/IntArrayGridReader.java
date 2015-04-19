@@ -7,22 +7,26 @@ import com.cappcorp.sudoku.model.Universe;
 /**
  * Reader using a 2 dimensions array of integers and a standard universe. The -1 value represents a missing value in the grid.
  */
-public class IntArrayGridReader implements GridReader {
+public class IntArrayGridReader implements GridReader<int[][]> {
 
     public static final int UNKNOWN = -1;
 
     private final Universe universe;
-    private final int[][] values;
 
-    public IntArrayGridReader(char[] characters, int[][] values) {
-        this(new Universe(characters), values);
+    public IntArrayGridReader(char[] characters) {
+        this(new Universe(characters));
     }
 
-    public IntArrayGridReader(int cardinal, int[][] values) {
-        this(new Universe(cardinal), values);
+    public IntArrayGridReader(int cardinal) {
+        this(new Universe(cardinal));
     }
 
-    public IntArrayGridReader(Universe universe, int[][] values) {
+    public IntArrayGridReader(Universe universe) {
+        this.universe = universe;
+    }
+
+    @Override
+    public Grid readGrid(int[][] values) {
         int cardinal = universe.getCardinal();
         if (values.length != cardinal) {
             throw new IllegalArgumentException("Wrong number of rows [" + values.length + "], expecting the same number as the cardinal [" + cardinal + "]");
@@ -34,15 +38,7 @@ public class IntArrayGridReader implements GridReader {
                         + "] , expecting the same number as the cardinal [" + cardinal + "]");
             }
         }
-
-        this.universe = universe;
-        this.values = values;
-    }
-
-    @Override
-    public Grid readGrid() {
         GridImpl grid = new GridImpl(universe);
-        int cardinal = universe.getCardinal();
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
                 int value = values[row][col];

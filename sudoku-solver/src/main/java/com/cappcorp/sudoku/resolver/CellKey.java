@@ -1,12 +1,24 @@
 package com.cappcorp.sudoku.resolver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import com.cappcorp.sudoku.model.Universe;
+import com.cappcorp.sudoku.util.GridHelper;
+
 public class CellKey {
 
     public static class CellKeys {
 
+        private final int cardinal;
+        private final int sqrt;
         private final CellKey[][] keys;
 
-        public CellKeys(int cardinal) {
+        public CellKeys(Universe universe) {
+            this.cardinal = universe.getCardinal();
+            this.sqrt = universe.getSqrt();
             this.keys = new CellKey[cardinal][cardinal];
 
             for (int row = 0; row < cardinal; row++) {
@@ -18,6 +30,31 @@ public class CellKey {
 
         public CellKey getKey(int row, int col) {
             return keys[row][col];
+        }
+
+        public List<CellKey> getRowKeys(int row) {
+            return Arrays.asList(keys[row]);
+        }
+
+        public List<CellKey> getColKeys(int col) {
+            List<CellKey> colKeys = new ArrayList<>(cardinal);
+            for (CellKey[] rowKeys : keys) {
+                colKeys.add(rowKeys[col]);
+            }
+            return Collections.unmodifiableList(colKeys);
+        }
+
+        public List<CellKey> getBoxKeys(int box) {
+            List<CellKey> boxKeys = new ArrayList<>(cardinal);
+            int boxTopRow = GridHelper.computeBoxTopRowFromBox(box, sqrt);
+            int boxTopCol = GridHelper.computeBoxTopColFromBox(box, sqrt);
+            for (int row = boxTopRow; row < boxTopRow + sqrt; row++) {
+                for (int col = boxTopCol; col < boxTopCol + sqrt; col++) {
+                    boxKeys.add(keys[row][col]);
+                }
+            }
+            return Collections.unmodifiableList(boxKeys);
+
         }
     }
 
@@ -60,6 +97,11 @@ public class CellKey {
         if (row != other.row)
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CellKey [row=" + row + ", col=" + col + "]";
     }
 
 }

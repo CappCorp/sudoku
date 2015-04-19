@@ -3,21 +3,21 @@ package com.cappcorp.sudoku.writter;
 import com.cappcorp.sudoku.model.Grid;
 import com.cappcorp.sudoku.model.Universe;
 
-public class CharArrayGridWriter implements GridWriter<char[][]> {
+public class IntArrayGridWriter implements GridWriter<int[][]> {
 
     @Override
-    public char[][] writeGrid(Grid grid) {
+    public int[][] writeGrid(Grid grid) {
         Universe universe = grid.getUniverse();
         int cardinal = universe.getCardinal();
-        char[][] values = new char[cardinal][cardinal];
+        int[][] values = new int[cardinal][cardinal];
 
         for (int row = 0; row < cardinal; row++) {
-            values[row] = new char[cardinal];
+            values[row] = new int[cardinal];
 
             for (int col = 0; col < cardinal; col++) {
                 Integer valueIfResolved = grid.getCellValueIfResolved(row, col);
-                char charValue = valueIfResolved == null ? Universe.BLANK : universe.map(valueIfResolved.intValue());
-                values[row][col] = charValue;
+                int intValue = valueIfResolved == null ? -1 : valueIfResolved.intValue();
+                values[row][col] = intValue;
             }
         }
         return values;

@@ -10,6 +10,38 @@ public enum GridHelper {
     private static final char COL_SEPARATOR = '|';
     private static final char SPACE = ' ';
 
+    public static int computeBoxNumber(int sqrt, int row, int col) {
+        return (row / sqrt) * sqrt + (col / sqrt);
+    }
+
+    public static int computeBoxPosition(int sqrt, int row, int col) {
+        return (row % sqrt) * sqrt + col % sqrt;
+    }
+
+    public static int computeBoxTopRowFromBox(int box, int sqrt) {
+        return box / sqrt;
+    }
+
+    public static int computeBoxTopRowFromRow(int sqrt, int row) {
+        return (row / sqrt) * sqrt;
+    }
+
+    public static int computeBoxTopColFromBox(int box, int sqrt) {
+        return (box % sqrt) * sqrt;
+    }
+
+    public static int computeBoxTopColFromCol(int sqrt, int col) {
+        return (col / sqrt) * sqrt;
+    }
+
+    public static int computeRow(int index, int cardinal) {
+        return index / cardinal;
+    }
+
+    public static int computeCol(int index, int cardinal) {
+        return index % cardinal;
+    }
+
     public static String displayGrid(Grid grid) {
         Universe universe = grid.getUniverse();
         int cardinal = universe.getCardinal();

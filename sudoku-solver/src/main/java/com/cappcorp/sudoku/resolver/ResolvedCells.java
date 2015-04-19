@@ -8,21 +8,22 @@ import java.util.Queue;
 import com.cappcorp.sudoku.listener.GridListener;
 import com.cappcorp.sudoku.model.ReadableGrid;
 import com.cappcorp.sudoku.resolver.CellKey.CellKeys;
+import com.cappcorp.sudoku.util.GridHelper;
 
 public class ResolvedCells implements GridListener {
 
-    private final ReadableGrid grid;
     private final CellKeys keys;
+    private final ReadableGrid readableGrid;
     private final Map<CellKey, Integer> resolvedCells;
     private final Queue<CellKey> newResolvedKeys;
 
-    public ResolvedCells(ReadableGrid grid) {
-        this.grid = grid;
-        int cardinal = grid.getUniverse().getCardinal();
-        this.keys = new CellKeys(cardinal);
+    public ResolvedCells(CellKeys cellKeys, ReadableGrid grid) {
+        this.keys = cellKeys;
+        this.readableGrid = grid;
         this.resolvedCells = new HashMap<>();
         this.newResolvedKeys = new LinkedList<CellKey>();
 
+        int cardinal = grid.getUniverse().getCardinal();
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
                 storeIfResolved(row, col, keys.getKey(row, col));
@@ -47,13 +48,13 @@ public class ResolvedCells implements GridListener {
     }
 
     public int countUnresolved() {
-        int cardinal = grid.getUniverse().getCardinal();
+        int cardinal = readableGrid.getUniverse().getCardinal();
         return cardinal * cardinal - resolvedCells.size();
     }
 
     @Override
     public void onRemoveRowPossibleValues(int row, int... values) {
-        int cardinal = grid.getUniverse().getCardinal();
+        int cardinal = readableGrid.getUniverse().getCardinal();
         for (int col = 0; col < cardinal; col++) {
             checkCellResolved(row, col);
         }
@@ -61,7 +62,7 @@ public class ResolvedCells implements GridListener {
 
     @Override
     public void onRemoveColumnPossibleValues(int col, int... values) {
-        int cardinal = grid.getUniverse().getCardinal();
+        int cardinal = readableGrid.getUniverse().getCardinal();
         for (int row = 0; row < cardinal; row++) {
             checkCellResolved(row, col);
         }
@@ -69,9 +70,9 @@ public class ResolvedCells implements GridListener {
 
     @Override
     public void onRemoveBoxPossibleValues(int row, int col, int... values) {
-        int sqrt = grid.getUniverse().getSqrt();
-        int boxTopRow = (row / sqrt) * sqrt;
-        int boxLeftCol = (col / sqrt) * sqrt;
+        int sqrt = readableGrid.getUniverse().getSqrt();
+        int boxTopRow = GridHelper.computeBoxTopRowFromRow(sqrt, row);
+        int boxLeftCol = GridHelper.computeBoxTopColFromCol(sqrt, col);
 
         for (int boxRow = boxTopRow; boxRow < boxTopRow + sqrt; boxRow++) {
             for (int boxCol = boxLeftCol; boxCol < boxLeftCol + sqrt; boxCol++) {
@@ -104,7 +105,7 @@ public class ResolvedCells implements GridListener {
     }
 
     private void storeIfResolved(int row, int col, CellKey key) {
-        Integer resolvedValue = grid.getCellValueIfResolved(row, col);
+        Integer resolvedValue = readableGrid.getCellValueIfResolved(row, col);
         if (resolvedValue != null) {
             resolvedCells.put(key, resolvedValue);
             newResolvedKeys.add(key);

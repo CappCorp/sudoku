@@ -2,7 +2,7 @@ package com.cappcorp.sudoku.writter;
 
 import com.cappcorp.sudoku.model.Grid;
 
-public interface GridWriter {
+public interface GridWriter<T> {
 
-    void writeGrid(Grid grid);
+    T writeGrid(Grid grid);
 }

@@ -29,4 +29,9 @@ class Cell {
     boolean isResolved() {
         return possibleValues.isResolved();
     }
+
+    @Override
+    public String toString() {
+        return possibleValues.toString();
+    }
 }

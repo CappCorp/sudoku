@@ -2,15 +2,9 @@ package com.cappcorp.sudoku.model;
 
 import java.util.Set;
 
+import com.cappcorp.sudoku.util.GridHelper;
+
 public class GridImpl implements Grid {
-
-    private static int computeBoxNumber(int sqrt, int row, int col) {
-        return (row / sqrt) * sqrt + (col / sqrt);
-    }
-
-    private static int computeBoxPosition(int sqrt, int row, int col) {
-        return (row % sqrt) * sqrt + col % sqrt;
-    }
 
     static Group[] createGroups(int cardinal) {
         Group[] groups = new Group[cardinal];
@@ -46,8 +40,8 @@ public class GridImpl implements Grid {
 
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {
-                int box = computeBoxNumber(sqrt, row, col);
-                int positionInBox = computeBoxPosition(sqrt, row, col);
+                int box = GridHelper.computeBoxNumber(sqrt, row, col);
+                int positionInBox = GridHelper.computeBoxPosition(sqrt, row, col);
 
                 Cell cell = new Cell(cardinal);
                 cells[row][col] = cell;
@@ -123,7 +117,12 @@ public class GridImpl implements Grid {
     }
 
     private Group getBox(int row, int col) {
-        return boxes[computeBoxNumber(universe.getSqrt(), row, col)];
+        return boxes[GridHelper.computeBoxNumber(universe.getSqrt(), row, col)];
+    }
+
+    @Override
+    public String toString() {
+        return GridHelper.displayGrid(this);
     }
 
 }
