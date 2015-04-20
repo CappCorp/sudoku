@@ -38,6 +38,7 @@ public class IntArrayGridReader implements GridReader<int[][]> {
                         + "] , expecting the same number as the cardinal [" + cardinal + "]");
             }
         }
+
         GridImpl grid = new GridImpl(universe);
         for (int row = 0; row < cardinal; row++) {
             for (int col = 0; col < cardinal; col++) {

@@ -7,7 +7,7 @@ import com.cappcorp.sudoku.reader.IntArrayGridReader;
 import com.cappcorp.sudoku.resolver.GridResolverImpl;
 import com.cappcorp.sudoku.writter.IntArrayGridWriter;
 
-public class GridSampleEasy1 extends GridSample<int[][], int[][]> {
+public class GridSampleEasy1Int extends GridSample<int[][], int[][]> {
 
     private static final int U = IntArrayGridReader.UNKNOWN;
 
@@ -41,7 +41,7 @@ public class GridSampleEasy1 extends GridSample<int[][], int[][]> {
     { 2, 7, 6,  8, 3, 5,  1, 0, 4 }};
 // @formatter:on
 
-    public GridSampleEasy1() {
+    public GridSampleEasy1Int() {
         super(new IntArrayGridReader(9), new IntArrayGridWriter(), INITIAL, SOLUTION);
     }
 
