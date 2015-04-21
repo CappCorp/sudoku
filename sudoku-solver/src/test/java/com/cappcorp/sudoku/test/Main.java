@@ -3,14 +3,14 @@ package com.cappcorp.sudoku.test;
 import com.cappcorp.sudoku.resolver.GridResolver;
 import com.cappcorp.sudoku.resolver.GridResolverImpl;
 import com.cappcorp.sudoku.sample.GridSample;
-import com.cappcorp.sudoku.sample.GridSampleEasy1Int;
+import com.cappcorp.sudoku.sample.GridSampleIntArrayEasy1;
 import com.cappcorp.sudoku.stat.StatGrid;
 import com.cappcorp.sudoku.util.GridHelper;
 
 public class Main {
 
     public static void main(String[] args) {
-        GridSample<int[][], int[][]> sampleEasy1 = new GridSampleEasy1Int();
+        GridSample<int[][], int[][]> sampleEasy1 = new GridSampleIntArrayEasy1();
 
         System.out.println(GridHelper.displayGrid(sampleEasy1.getInitialGrid()));
 

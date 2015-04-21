@@ -1,13 +1,11 @@
 package com.cappcorp.sudoku.sample;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.cappcorp.sudoku.reader.IntArrayGridReader;
 import com.cappcorp.sudoku.resolver.GridResolverImpl;
-import com.cappcorp.sudoku.writter.IntArrayGridWriter;
 
-public class GridSampleEasy1Int extends GridSample<int[][], int[][]> {
+public class GridSampleIntArrayEasy1 extends GridSampleIntArray {
 
     private static final int U = IntArrayGridReader.UNKNOWN;
 
@@ -41,18 +39,8 @@ public class GridSampleEasy1Int extends GridSample<int[][], int[][]> {
     { 2, 7, 6,  8, 3, 5,  1, 0, 4 }};
 // @formatter:on
 
-    public GridSampleEasy1Int() {
-        super(new IntArrayGridReader(9), new IntArrayGridWriter(), INITIAL, SOLUTION);
-    }
-
-    @Override
-    protected void assertEqual(int[][] solution, int[][] output) {
-        int cardinal = solution.length;
-        for (int row = 0; row < cardinal; row++) {
-            for (int col = 0; col < cardinal; col++) {
-                Assert.assertEquals("Wrong value for cell[row=" + row + ", col=" + col + "]", solution[row][col], output[row][col]);
-            }
-        }
+    public GridSampleIntArrayEasy1() {
+        super(9, INITIAL, SOLUTION);
     }
 
     @Test

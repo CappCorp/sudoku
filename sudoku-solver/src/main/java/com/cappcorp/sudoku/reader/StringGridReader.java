@@ -10,8 +10,8 @@ public class StringGridReader implements GridReader<String> {
 
     private final Universe universe;
 
-    private final boolean hasSeparators;
     private final boolean isMultiLine;
+    private final boolean hasSeparators;
 
     public StringGridReader(char[] characters, boolean isMultiLine, boolean hasSeparators) {
         this(new Universe(characters), isMultiLine, hasSeparators);
@@ -29,21 +29,22 @@ public class StringGridReader implements GridReader<String> {
 
     @Override
     public Grid readGrid(String gridString) {
+        int lineSepLength = System.lineSeparator().length();
         int cardinal = universe.getCardinal();
         int sqrt = universe.getSqrt();
         int expectedCharCount = cardinal * cardinal;
         int rowLength = cardinal;
         if (isMultiLine) {
-            expectedCharCount += cardinal;
-            rowLength++;
+            expectedCharCount += cardinal * lineSepLength;
+            rowLength += lineSepLength;
         }
         if (hasSeparators) {
-            expectedCharCount += (cardinal + sqrt + 1) * (sqrt + 1); // row separators, full line
+            expectedCharCount += (rowLength + sqrt + 1) * (sqrt + 1); // row separators, full line
             expectedCharCount += cardinal * (sqrt + 1); // col separators, line minus row separators
             rowLength += sqrt + 1;
         }
         if (gridString.length() != expectedCharCount) {
-            throw new IllegalArgumentException("Invalid input string, expected " + expectedCharCount + " characters but found only " + gridString.length());
+            throw new IllegalArgumentException("Invalid input string, expected " + expectedCharCount + " characters but found " + gridString.length());
         }
 
         GridImpl grid = new GridImpl(universe);
