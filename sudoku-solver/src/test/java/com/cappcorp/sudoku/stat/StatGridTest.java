@@ -68,33 +68,15 @@ public class StatGridTest {
     }
 
     @Test
-    public void getRowUnresolvedValues_noCallback() {
-        statGrid.getRowUnresolvedValues(5);
-        assertRead();
-    }
-
-    @Test
     public void removeRowPossibleValues_callback() {
         statGrid.removeRowPossibleValues(5, 1, 2, 7);
         assertWrite();
     }
 
     @Test
-    public void getColumnUnresolvedValues_noCallback() {
-        statGrid.getColumnUnresolvedValues(3);
-        assertRead();
-    }
-
-    @Test
     public void removeColumnPossibleValues_callback() {
         statGrid.removeColumnPossibleValues(3, 1, 2, 7);
         assertWrite();
-    }
-
-    @Test
-    public void getBoxUnresolvedValues_noCallback() {
-        statGrid.getBoxUnresolvedValues(5, 3);
-        assertRead();
     }
 
     @Test

@@ -12,10 +12,4 @@ public interface ReadableGrid {
 
     Set<Integer> getCellPossibleValues(int row, int col);
 
-    Set<Integer> getRowUnresolvedValues(int row);
-
-    Set<Integer> getColumnUnresolvedValues(int col);
-
-    Set<Integer> getBoxUnresolvedValues(int row, int col);
-
 }

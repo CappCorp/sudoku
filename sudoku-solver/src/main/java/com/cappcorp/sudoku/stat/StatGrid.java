@@ -70,33 +70,15 @@ public class StatGrid implements Grid {
     }
 
     @Override
-    public Set<Integer> getRowUnresolvedValues(int row) {
-        addRead();
-        return grid.getRowUnresolvedValues(row);
-    }
-
-    @Override
     public void removeRowPossibleValues(int row, int... values) {
         addWrite();
         grid.removeRowPossibleValues(row, values);
     }
 
     @Override
-    public Set<Integer> getColumnUnresolvedValues(int col) {
-        addRead();
-        return grid.getColumnUnresolvedValues(col);
-    }
-
-    @Override
     public void removeColumnPossibleValues(int col, int... values) {
         addWrite();
         grid.removeColumnPossibleValues(col, values);
-    }
-
-    @Override
-    public Set<Integer> getBoxUnresolvedValues(int row, int col) {
-        addRead();
-        return grid.getBoxUnresolvedValues(row, col);
     }
 
     @Override

@@ -87,28 +87,13 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public Set<Integer> getRowUnresolvedValues(int row) {
-        return rows[row].getUnresolvedValues();
-    }
-
-    @Override
     public void removeRowPossibleValues(int row, int... values) {
         rows[row].removePossibleValues(values);
     }
 
     @Override
-    public Set<Integer> getColumnUnresolvedValues(int col) {
-        return columns[col].getUnresolvedValues();
-    }
-
-    @Override
     public void removeColumnPossibleValues(int col, int... values) {
         columns[col].removePossibleValues(values);
-    }
-
-    @Override
-    public Set<Integer> getBoxUnresolvedValues(int row, int col) {
-        return getBox(row, col).getUnresolvedValues();
     }
 
     @Override

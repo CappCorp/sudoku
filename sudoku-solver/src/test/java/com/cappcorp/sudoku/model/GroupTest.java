@@ -19,16 +19,6 @@ public class GroupTest {
     }
 
     @Test
-    public void getPossibleValues_expectCallOnPossibleValues() {
-        Group group = new Group(5);
-        PossibleValues possibleValues = Mockito.mock(PossibleValues.class);
-        Deencapsulation.setField(group, possibleValues);
-
-        group.getUnresolvedValues();
-        Mockito.verify(possibleValues).getPossibleValues();
-    }
-
-    @Test
     public void removePossibleValues_expectCallOnCellsAndPossibleValues() {
         Group group = new Group(1);
 
@@ -36,13 +26,9 @@ public class GroupTest {
         Mockito.when(cell.isResolved()).thenReturn(false);
         group.setCell(0, cell);
 
-        PossibleValues possibleValues = Mockito.mock(PossibleValues.class);
-        Deencapsulation.setField(group, possibleValues);
-
         group.removePossibleValues(0);
         Mockito.verify(cell).isResolved();
         Mockito.verify(cell).removePossibleValues(0);
-        Mockito.verify(possibleValues).removeValues(0);
     }
 
 }
