@@ -42,4 +42,7 @@ public abstract class GridSample<I, O> {
     }
 
     protected abstract void assertEqual(O solution, O output);
+    
+    // TODO add grid validity check
+    // TODO add matching between output with initial
 }

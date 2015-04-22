@@ -18,11 +18,17 @@ public class GridResolverImpl extends ReadWriteListenGridResolver {
 
         boolean didSomething = true;
 
+        int iteration = 0;
         while (didSomething) {
+            System.out.println("Iteration " + iteration + ": starting removeResolvedValues()");
             boolean valuesRemoved = resolvedValuesRemover.removeResolvedValues();
+            System.out.println("Iteration " + iteration + ": removeResolvedValues() -> " + valuesRemoved);
+            System.out.println("Iteration " + iteration + ": starting findGroupTuples()");
             boolean groupTuplesFound = tupleFinder.findGroupTuples();
+            System.out.println("Iteration " + iteration + ": findGroupTuples() -> " + groupTuplesFound);
 
             didSomething = valuesRemoved || groupTuplesFound;
+            iteration++;
         }
     }
 

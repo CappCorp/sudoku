@@ -36,18 +36,18 @@ public class TupleFinder {
     }
 
     public boolean findGroupTuples() {
-        boolean tuplesFound = false;
+        boolean newTuplesFound = false;
         int cardinal = readableGrid.getUniverse().getCardinal();
         for (int row = 0; row < cardinal; row++) {
-            tuplesFound |= findRowTuples(row);
+            newTuplesFound |= findRowTuples(row);
         }
         for (int col = 0; col < cardinal; col++) {
-            tuplesFound |= findColTuples(col);
+            newTuplesFound |= findColTuples(col);
         }
         for (int box = 0; box < cardinal; box++) {
-            tuplesFound |= findBoxTuples(box);
+            newTuplesFound |= findBoxTuples(box);
         }
-        return tuplesFound;
+        return newTuplesFound;
     }
 
     private boolean findRowTuples(int row) {
@@ -63,7 +63,6 @@ public class TupleFinder {
     }
 
     private boolean findGroupTuples(List<CellKey> groupCellKeys) {
-        boolean tuplesFound = false;
         List<CellKey> unresolvedCellKeys = new ArrayList<>();
         for (CellKey cellKey : groupCellKeys) {
             if (!resolvedCells.isResolved(cellKey.getRow(), cellKey.getCol())) {
@@ -73,22 +72,25 @@ public class TupleFinder {
 
         Map<CellKey, Set<Integer>> possibleValues = computePossibleValues(unresolvedCellKeys);
 
+        boolean newTuplesFound = false;
+
         List<CellKey> similarCells;
 
         while ((similarCells = findSimilarCells(unresolvedCellKeys, possibleValues)) != null) {
-            tuplesFound = true;
             Set<Integer> similarValuesSet = possibleValues.get(similarCells.get(0));
             int[] similarValues = toIntArray(similarValuesSet);
             unresolvedCellKeys.removeAll(similarCells);
             for (CellKey cellKey : unresolvedCellKeys) {
-                writableGrid.removeCellPossibleValues(cellKey.getRow(), cellKey.getCol(), similarValues);
-                possibleValues.get(cellKey).removeAll(similarValuesSet);
+                if (possibleValues.get(cellKey).removeAll(similarValuesSet)) {
+                    newTuplesFound = true;
+                    writableGrid.removeCellPossibleValues(cellKey.getRow(), cellKey.getCol(), similarValues);
+                }
             }
             for (CellKey cellKey : similarCells) {
                 possibleValues.remove(cellKey);
             }
         }
-        return tuplesFound;
+        return newTuplesFound;
     }
 
     private Map<CellKey, Set<Integer>> computePossibleValues(List<CellKey> unresolvedCellKeys) {
