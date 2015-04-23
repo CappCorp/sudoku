@@ -3,33 +3,28 @@ package com.cappcorp.sudoku.model;
 enum UniverseHelper {
     ;
 
+    static final char[] DIGITS_UNIVERSE = new char[9];
+
+    static final char[] DIGITS_AND_CHARS_UNIVERSE = new char[10 + 26 + 26 + 2];
+
+    static {
+        fillWithInts(DIGITS_UNIVERSE, 0, 1, 9);
+
+        fillWithInts(DIGITS_AND_CHARS_UNIVERSE, 0, 0, 10);
+        fillWithChars(DIGITS_AND_CHARS_UNIVERSE, 10, 'A', 26);
+        fillWithChars(DIGITS_AND_CHARS_UNIVERSE, 10 + 26, 'a', 26);
+        DIGITS_AND_CHARS_UNIVERSE[10 + 26 + 26] = '#';
+        DIGITS_AND_CHARS_UNIVERSE[10 + 26 + 26 + 1] = '@';
+    }
+
     static char[] buildCharacters(int cardinal) {
         char[] characters = new char[cardinal];
         if (cardinal < 10) {
-            fillWithInts(characters, 0, 1, cardinal);
+            System.arraycopy(DIGITS_UNIVERSE, 0, characters, 0, characters.length);
             return characters;
         }
-        if (cardinal <= 25) {
-            fillWithInts(characters, 0, 1, 9);
-            fillWithChars(characters, 9, 'A', cardinal - 9);
-            return characters;
-        }
-        if (cardinal <= 10 + 26 + 26 + 2) {
-            fillWithInts(characters, 0, 0, 10);
-            if (cardinal <= 10 + 26) {
-                fillWithChars(characters, 10, 'A', cardinal - 10);
-            } else {
-                fillWithChars(characters, 10, 'A', 26);
-                if (cardinal <= 10 + 26 + 26) {
-                    fillWithChars(characters, 10 + 26, 'a', cardinal - 10 - 26);
-                } else {
-                    fillWithChars(characters, 10 + 26, 'a', 26);
-                    characters[62] = '!';
-                    if (cardinal == 64) {
-                        characters[63] = '?';
-                    }
-                }
-            }
+        if (cardinal <= DIGITS_AND_CHARS_UNIVERSE.length) {
+            System.arraycopy(DIGITS_AND_CHARS_UNIVERSE, 0, characters, 0, characters.length);
             return characters;
         }
         throw new IllegalArgumentException("Cardinal too big, cannot generate characters automatically for cardinal: " + cardinal);

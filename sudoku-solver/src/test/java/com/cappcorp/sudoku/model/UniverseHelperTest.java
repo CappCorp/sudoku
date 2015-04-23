@@ -27,9 +27,9 @@ public class UniverseHelperTest {
 
     @Test
     public void test16() {
-        checkBuildCharacters(16, new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        checkBuildCharacters(16, new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 
-        'A', 'B', 'C', 'D', 'E', 'F', 'G' });
+        'A', 'B', 'C', 'D', 'E', 'F' });
     }
 
     @Test
@@ -56,7 +56,7 @@ public class UniverseHelperTest {
 
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 
-        '!', '?' });
+        '#', '@' });
     }
 
     @Test(expected = IllegalArgumentException.class)
