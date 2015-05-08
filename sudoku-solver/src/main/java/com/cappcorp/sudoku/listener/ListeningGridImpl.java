@@ -27,31 +27,31 @@ public class ListeningGridImpl implements ListeningGrid, WritableGrid {
     @Override
     public void setCellPossibleValues(int row, int col, int... values) {
         grid.setCellPossibleValues(row, col, values);
-        listeners.stream().forEach(l -> l.onSetCellPossibleValues(row, col, values));
+        listeners.forEach(l -> l.onSetCellPossibleValues(row, col, values));
     }
 
     @Override
     public void removeCellPossibleValues(int row, int col, int... values) {
         grid.removeCellPossibleValues(row, col, values);
-        listeners.stream().forEach(l -> l.onRemoveCellPossibleValues(row, col, values));
+        listeners.forEach(l -> l.onRemoveCellPossibleValues(row, col, values));
     }
 
     @Override
     public void removeRowPossibleValues(int row, int... values) {
         grid.removeRowPossibleValues(row, values);
-        listeners.stream().forEach(l -> l.onRemoveRowPossibleValues(row, values));
+        listeners.forEach(l -> l.onRemoveRowPossibleValues(row, values));
     }
 
     @Override
     public void removeColumnPossibleValues(int col, int... values) {
         grid.removeColumnPossibleValues(col, values);
-        listeners.stream().forEach(l -> l.onRemoveColumnPossibleValues(col, values));
+        listeners.forEach(l -> l.onRemoveColumnPossibleValues(col, values));
     }
 
     @Override
     public void removeBoxPossibleValues(int row, int col, int... values) {
         grid.removeBoxPossibleValues(row, col, values);
-        listeners.stream().forEach(l -> l.onRemoveBoxPossibleValues(row, col, values));
+        listeners.forEach(l -> l.onRemoveBoxPossibleValues(row, col, values));
     }
 
 }

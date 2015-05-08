@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import com.cappcorp.sudoku.model.Universe;
 import com.cappcorp.sudoku.util.GridHelper;
@@ -21,11 +22,7 @@ public class CellKey {
             this.sqrt = universe.getSqrt();
             this.keys = new CellKey[cardinal][cardinal];
 
-            for (int row = 0; row < cardinal; row++) {
-                for (int col = 0; col < cardinal; col++) {
-                    keys[row][col] = new CellKey(row, col);
-                }
-            }
+            IntStream.range(0, cardinal).forEach(row -> IntStream.range(0, cardinal).forEach(col -> keys[row][col] = new CellKey(row, col)));
         }
 
         public CellKey getKey(int row, int col) {

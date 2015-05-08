@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.stream.IntStream;
 
 import com.cappcorp.sudoku.listener.GridListener;
 import com.cappcorp.sudoku.model.ReadableGrid;
@@ -24,11 +25,7 @@ public class ResolvedCells implements GridListener {
         this.newResolvedKeys = new LinkedList<CellKey>();
 
         int cardinal = grid.getUniverse().getCardinal();
-        for (int row = 0; row < cardinal; row++) {
-            for (int col = 0; col < cardinal; col++) {
-                storeIfResolved(row, col, keys.getKey(row, col));
-            }
-        }
+        IntStream.range(0, cardinal).forEach(row -> IntStream.range(0, cardinal).forEach(col -> storeIfResolved(row, col, keys.getKey(row, col))));
     }
 
     public boolean isResolved() {
@@ -54,18 +51,12 @@ public class ResolvedCells implements GridListener {
 
     @Override
     public void onRemoveRowPossibleValues(int row, int... values) {
-        int cardinal = readableGrid.getUniverse().getCardinal();
-        for (int col = 0; col < cardinal; col++) {
-            checkCellResolved(row, col);
-        }
+        IntStream.range(0, readableGrid.getUniverse().getCardinal()).forEach(col -> checkCellResolved(row, col));
     }
 
     @Override
     public void onRemoveColumnPossibleValues(int col, int... values) {
-        int cardinal = readableGrid.getUniverse().getCardinal();
-        for (int row = 0; row < cardinal; row++) {
-            checkCellResolved(row, col);
-        }
+        IntStream.range(0, readableGrid.getUniverse().getCardinal()).forEach(row -> checkCellResolved(row, col));
     }
 
     @Override
@@ -74,11 +65,8 @@ public class ResolvedCells implements GridListener {
         int boxTopRow = GridHelper.computeBoxTopRowFromRow(sqrt, row);
         int boxLeftCol = GridHelper.computeBoxTopColFromCol(sqrt, col);
 
-        for (int boxRow = boxTopRow; boxRow < boxTopRow + sqrt; boxRow++) {
-            for (int boxCol = boxLeftCol; boxCol < boxLeftCol + sqrt; boxCol++) {
-                checkCellResolved(boxRow, boxCol);
-            }
-        }
+        IntStream.range(boxTopRow, boxTopRow + sqrt).forEach(
+                boxRow -> IntStream.range(boxLeftCol, boxLeftCol + sqrt).forEach(boxCol -> checkCellResolved(boxRow, boxCol)));
     }
 
     @Override
