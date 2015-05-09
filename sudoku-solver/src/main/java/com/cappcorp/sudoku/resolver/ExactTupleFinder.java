@@ -6,7 +6,8 @@ import java.util.Set;
 
 import com.cappcorp.sudoku.model.ReadableGrid;
 import com.cappcorp.sudoku.model.WritableGrid;
-import com.cappcorp.sudoku.resolver.CellKey.CellKeys;
+import com.cappcorp.sudoku.util.CellKey;
+import com.cappcorp.sudoku.util.CellKey.CellKeys;
 
 public class ExactTupleFinder extends AbstractTupleFinder {
 

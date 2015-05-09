@@ -1,6 +1,7 @@
 package com.cappcorp.sudoku.resolver;
 
 import com.cappcorp.sudoku.model.WritableGrid;
+import com.cappcorp.sudoku.util.CellKey;
 
 public class ResolvedValuesRemover {
 

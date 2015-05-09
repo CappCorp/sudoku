@@ -1,4 +1,4 @@
-package com.cappcorp.sudoku.resolver;
+package com.cappcorp.sudoku.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import com.cappcorp.sudoku.model.Universe;
-import com.cappcorp.sudoku.util.GridHelper;
 
 public class CellKey {
 

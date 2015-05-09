@@ -3,7 +3,7 @@ package com.cappcorp.sudoku.resolver;
 import com.cappcorp.sudoku.listener.ListeningGrid;
 import com.cappcorp.sudoku.model.ReadableGrid;
 import com.cappcorp.sudoku.model.WritableGrid;
-import com.cappcorp.sudoku.resolver.CellKey.CellKeys;
+import com.cappcorp.sudoku.util.CellKey.CellKeys;
 
 public class GridResolverImpl extends ReadWriteListenGridResolver {
 

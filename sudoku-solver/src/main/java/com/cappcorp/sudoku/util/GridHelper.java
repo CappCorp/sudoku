@@ -17,7 +17,7 @@ public enum GridHelper {
     }
 
     public static int computeBoxTopRowFromBox(int box, int sqrt) {
-        return box / sqrt;
+        return (box / sqrt) * sqrt;
     }
 
     public static int computeBoxTopRowFromRow(int sqrt, int row) {

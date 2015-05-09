@@ -8,8 +8,9 @@ import java.util.stream.IntStream;
 
 import com.cappcorp.sudoku.listener.GridListener;
 import com.cappcorp.sudoku.model.ReadableGrid;
-import com.cappcorp.sudoku.resolver.CellKey.CellKeys;
+import com.cappcorp.sudoku.util.CellKey;
 import com.cappcorp.sudoku.util.GridHelper;
+import com.cappcorp.sudoku.util.CellKey.CellKeys;
 
 public class ResolvedCells implements GridListener {
 
