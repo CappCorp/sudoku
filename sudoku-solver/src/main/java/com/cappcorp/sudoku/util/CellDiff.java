@@ -13,7 +13,7 @@ class CellDiff {
     }
 
     StringBuilder display(Universe universe, StringBuilder builder) {
-        builder.append("Expected [");
+        builder.append("expected [");
         builder.append(expected == null ? "NONE" : universe.map(expected.intValue()));
         builder.append("] but was [");
         builder.append(actual == null ? "NONE" : universe.map(actual.intValue()));

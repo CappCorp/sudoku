@@ -19,12 +19,26 @@ public class GridCheckerTest {
 
     private static final String GRID_FILLED_4_4 = "1234" + "3421" + "2143" + "4312";
 
+    private static final String GRID_WITH_GAPS_4_4;
+
+    static {
+        StringBuilder builder = new StringBuilder(GRID_FILLED_4_4);
+        builder.setCharAt(1, Universe.BLANK);
+        builder.setCharAt(2, Universe.BLANK);
+        builder.setCharAt(3, Universe.BLANK);
+        builder.setCharAt(5, Universe.BLANK);
+        builder.setCharAt(7, Universe.BLANK);
+        builder.setCharAt(11, Universe.BLANK);
+        builder.setCharAt(13, Universe.BLANK);
+        GRID_WITH_GAPS_4_4 = builder.toString();
+    }
+
     private static abstract class AssertPattern {
 
         abstract void verify(List<String> errorLines);
     }
 
-    public static final class CheckValidAssertPattern extends AssertPattern {
+    static final class CheckValidAssertPattern extends AssertPattern {
 
         static enum Type {
 
@@ -59,14 +73,14 @@ public class GridCheckerTest {
         }
     }
 
-    public static final class CheckContainsAssertPattern extends AssertPattern {
+    static final class CheckConditionAssertPattern extends AssertPattern {
 
         private final int row;
         private final int col;
         private final Character expected;
         private final Character actual;
 
-        public CheckContainsAssertPattern(int row, int col, Character expected, Character actual) {
+        CheckConditionAssertPattern(int row, int col, Character expected, Character actual) {
             this.row = row;
             this.col = col;
             this.expected = expected;
@@ -75,7 +89,7 @@ public class GridCheckerTest {
 
         @Override
         void verify(List<String> errorLines) {
-            String expectedLine = "Error in " + "CellKey [row=" + row + ", col=" + col + "]" + ": " + "Expected [";
+            String expectedLine = "Error in " + "row=" + row + ", col=" + col + ": " + "expected [";
             expectedLine += expected == null ? "NONE" : expected.charValue();
             expectedLine += "] but was [";
             expectedLine += actual == null ? "NONE" : actual.charValue();
@@ -90,6 +104,7 @@ public class GridCheckerTest {
         assertPatterns(checkIsValid("1"));
         assertPatterns(checkIsValid("1               "));
         assertPatterns(checkIsValid(GRID_FILLED_4_4));
+        assertPatterns(checkIsValid(GRID_WITH_GAPS_4_4));
     }
 
     @Test
@@ -123,12 +138,6 @@ public class GridCheckerTest {
     }
 
     @Test
-    public void checkContains_containedGrids() {
-        assertPatterns(checkContains("1", " "));
-        assertPatterns(checkContains("1", "1"));
-    }
-
-    @Test
     public void checkContains_containedGrids_4by4filledIncrementally() {
         int cardinal = GRID_FILLED_4_4.length();
         List<Integer> intList = new ArrayList<>();
@@ -148,7 +157,18 @@ public class GridCheckerTest {
 
     @Test
     public void checkContains_notContained() {
+        String container = "1234" + "    " + "  2 " + "    ";
+        String containee = "123 " + " 4  " + "  4 " + "   1";
 
+        assertPatterns(checkContains(container, containee),
+
+        new CheckConditionAssertPattern(2, 2, null, '4'),
+
+        new CheckConditionAssertPattern(3, 3, '2', '4'),
+
+        new CheckConditionAssertPattern(4, 4, null, '1')
+
+        );
     }
 
     private String checkContains(String containerString, String containeeString) {
@@ -158,6 +178,39 @@ public class GridCheckerTest {
         ReadableGrid containee = readGrid(containeeString, universe);
         GridChecker gridChecker = new GridChecker(universe, new CellKeys(universe));
         return gridChecker.checkContains(container, containee);
+    }
+
+    @Test
+    public void checkAreEqual_equal() {
+        assertPatterns(checkAreEqual(GRID_FILLED_4_4, GRID_FILLED_4_4));
+        assertPatterns(checkAreEqual(GRID_WITH_GAPS_4_4, GRID_WITH_GAPS_4_4));
+    }
+
+    @Test
+    public void checkAreEqual_notEqual() {
+        String grid1 = "1234" + "    " + "  2 " + "    ";
+        String grid2 = "123 " + " 4  " + "  4 " + "   1";
+
+        assertPatterns(checkAreEqual(grid1, grid2),
+
+        new CheckConditionAssertPattern(1, 4, '4', null),
+
+        new CheckConditionAssertPattern(2, 2, null, '4'),
+
+        new CheckConditionAssertPattern(3, 3, '2', '4'),
+
+        new CheckConditionAssertPattern(4, 4, null, '1')
+
+        );
+    }
+
+    private String checkAreEqual(String expectedString, String actualString) {
+        Assert.assertEquals(expectedString.length(), actualString.length());
+        Universe universe = computeUniverse(expectedString);
+        ReadableGrid expected = readGrid(expectedString, universe);
+        ReadableGrid actual = readGrid(actualString, universe);
+        GridChecker gridChecker = new GridChecker(universe, new CellKeys(universe));
+        return gridChecker.checkAreEqual(expected, actual);
     }
 
     private void assertPatterns(String errorMessage, AssertPattern... assertPatterns) {

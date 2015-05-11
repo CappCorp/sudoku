@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
 import com.cappcorp.sudoku.model.ReadableGrid;
@@ -45,25 +46,40 @@ public class GridChecker {
     }
 
     public String checkContains(ReadableGrid container, ReadableGrid containee) {
+        return checkCellByCellCondition((containerValue, containeeValue) -> containerValue == null && containeeValue == null || containerValue != null
+                && (containeeValue == null || containerValue.equals(containeeValue)), container, containee);
+    }
+
+    public String checkAreEqual(ReadableGrid expected, ReadableGrid actual) {
+        return checkCellByCellCondition(
+                (expectedValue, actualValue) -> expectedValue == null && actualValue == null || expectedValue != null && expectedValue.equals(actualValue),
+                expected, actual);
+    }
+
+    private String checkCellByCellCondition(BiFunction<Integer, Integer, Boolean> condition, ReadableGrid expected, ReadableGrid actual) {
         Map<CellKey, CellDiff> diffMap = new TreeMap<>();
         IntStream.range(0, universe.getCardinal()).forEach(
-                row -> IntStream.range(0, universe.getCardinal()).forEach(col -> checkSameOrNull(container, containee, diffMap, row, col)));
+                row -> IntStream.range(0, universe.getCardinal()).forEach(col -> checkCondition(condition, expected, actual, diffMap, row, col)));
 
         if (diffMap.isEmpty()) {
             return null;
         }
 
         StringBuilder builder = new StringBuilder();
-        diffMap.forEach((cellKey, cellDiff) -> cellDiff.display(universe, builder.append("Error in ").append(cellKey).append(": ")).append(
+        diffMap.forEach((cellKey, cellDiff) -> cellDiff.display(universe,
+                builder.append("Error in row=").append(cellKey.getRow() + 1).append(", col=").append(cellKey.getCol() + 1).append(": ")).append(
                 System.lineSeparator()));
         return builder.toString();
+
     }
 
-    private void checkSameOrNull(ReadableGrid container, ReadableGrid containee, Map<CellKey, CellDiff> diffMap, int row, int col) {
-        Integer containerValue = container.getCellValueIfResolved(row, col);
-        Integer containeeValue = containee.getCellValueIfResolved(row, col);
-        if (containerValue == null && containeeValue != null || containerValue != null && containeeValue != null && !containerValue.equals(containeeValue)) {
-            diffMap.put(cellKeys.getKey(row, col), new CellDiff(containerValue, containerValue));
+    private void checkCondition(BiFunction<Integer, Integer, Boolean> condition, ReadableGrid container, ReadableGrid containee,
+            Map<CellKey, CellDiff> diffMap, int row, int col) {
+        Integer expectedValue = container.getCellValueIfResolved(row, col);
+        Integer actualValue = containee.getCellValueIfResolved(row, col);
+        if (!condition.apply(expectedValue, actualValue)) {
+            diffMap.put(cellKeys.getKey(row, col), new CellDiff(expectedValue, actualValue));
         }
+
     }
 }

@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 import com.cappcorp.sudoku.model.Universe;
 
-public class CellKey {
+public class CellKey implements Comparable<CellKey> {
 
     public static class CellKeys {
 
@@ -98,6 +98,11 @@ public class CellKey {
     @Override
     public String toString() {
         return "CellKey [row=" + row + ", col=" + col + "]";
+    }
+
+    @Override
+    public int compareTo(CellKey other) {
+        return row == other.row ? col - other.col : row - other.row;
     }
 
 }
