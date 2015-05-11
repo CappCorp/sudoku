@@ -18,7 +18,7 @@ public class IntArrayGridReader implements GridReader<int[][]> {
     }
 
     public IntArrayGridReader(int cardinal) {
-        this(new Universe(cardinal));
+        this(Universe.fromCardinal(cardinal));
     }
 
     public IntArrayGridReader(Universe universe) {

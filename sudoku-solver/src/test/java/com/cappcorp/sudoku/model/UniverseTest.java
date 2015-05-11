@@ -1,6 +1,10 @@
 package com.cappcorp.sudoku.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Map;
+
+import mockit.Deencapsulation;
 import mockit.Expectations;
 import mockit.Verifications;
 import mockit.integration.junit4.JMockit;
@@ -50,13 +54,15 @@ public class UniverseTest {
     }
 
     @Test
-    public void ctor_withCardinal_callsUniverseHelper() {
+    public void fromCardinal_callsUniverseHelper() {
+        Deencapsulation.getField(Universe.class, Map.class).clear();
+
         new Expectations(UniverseHelper.class) {
             {
             }
         };
 
-        new Universe(1);
+        Universe.fromCardinal(1);
 
         new Verifications() {
             {
@@ -68,7 +74,7 @@ public class UniverseTest {
     @Test
     public void getCardinal_expectCardinal() {
         int cardinal = 16;
-        Universe universe = new Universe(cardinal);
+        Universe universe = Universe.fromCardinal(cardinal);
         assertThat(universe.getCardinal()).isEqualTo(cardinal);
     }
 
@@ -76,7 +82,7 @@ public class UniverseTest {
     public void getSqrt_expectSqrt() {
         int sqrt = 3;
         int cardinal = sqrt * sqrt;
-        Universe universe = new Universe(cardinal);
+        Universe universe = Universe.fromCardinal(cardinal);
         assertThat(universe.getSqrt()).isEqualTo(sqrt);
     }
 
@@ -92,7 +98,7 @@ public class UniverseTest {
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void map_illegalIntValue() {
-        Universe universe = new Universe(1);
+        Universe universe = Universe.fromCardinal(1);
         universe.map(-1);
     }
 

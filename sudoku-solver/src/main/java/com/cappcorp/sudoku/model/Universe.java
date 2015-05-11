@@ -1,8 +1,10 @@
 package com.cappcorp.sudoku.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -11,6 +13,8 @@ import java.util.Set;
 public class Universe {
 
     public static final char BLANK = ' ';
+
+    private static final Map<Integer, Universe> universeMap = new HashMap<>();
 
     static int checkAndComputeSqrt(int cardinal) {
         if (cardinal <= 0) {
@@ -27,12 +31,22 @@ public class Universe {
         return new IllegalArgumentException("Invalid universe; universe cardinal must by the square of a strictly positive integer value");
     }
 
+    public synchronized static Universe fromCardinal(int cardinal) {
+        Integer cardinalInt = Integer.valueOf(cardinal);
+        Universe universe = universeMap.get(cardinalInt);
+        if (universe == null) {
+            universe = new Universe(cardinal);
+            universeMap.put(cardinalInt, universe);
+        }
+        return universe;
+    }
+
     private final List<Character> sortedValues;
     private final Set<Character> uniqueValues;
     private final int cardinal;
     private final int sqrt;
 
-    public Universe(int cardinal) {
+    private Universe(int cardinal) {
         this(UniverseHelper.buildCharacters(cardinal));
     }
 

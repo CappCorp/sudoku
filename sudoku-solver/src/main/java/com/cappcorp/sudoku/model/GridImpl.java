@@ -21,7 +21,7 @@ public class GridImpl implements Grid {
     private final Group[] boxes;
 
     public GridImpl(int cardinal) {
-        this(new Universe(cardinal));
+        this(Universe.fromCardinal(cardinal));
     }
 
     public GridImpl(char[] characters) {

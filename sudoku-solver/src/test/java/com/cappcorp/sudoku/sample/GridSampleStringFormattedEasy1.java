@@ -1,13 +1,9 @@
 package com.cappcorp.sudoku.sample;
 
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.cappcorp.sudoku.model.Universe;
 import com.cappcorp.sudoku.reader.StringGridReader;
-import com.cappcorp.sudoku.resolver.GridResolverImpl;
-import com.cappcorp.sudoku.writter.StringGridWriter;
 
-public class GridSampleStringFormattedEasy1 extends GridSample<String, String> {
+public class GridSampleStringFormattedEasy1 extends GridSampleSingleType<String> {
 
     public static final String INITIAL =
 // @formatter:off
@@ -44,16 +40,7 @@ public class GridSampleStringFormattedEasy1 extends GridSample<String, String> {
 // @formatter:on
 
     public GridSampleStringFormattedEasy1() {
-        super(new StringGridReader(9, false, true), new StringGridWriter(false, true, false), INITIAL, SOLUTION);
+        super(Universe.fromCardinal(9), new StringGridReader(Universe.fromCardinal(9), false, true), INITIAL, SOLUTION);
     }
 
-    @Override
-    protected void assertEqual(String solution, String output) {
-        Assert.assertEquals(solution, output);
-    }
-
-    @Test
-    public void withGridResolverImpl() {
-        resolveAndAssert(new GridResolverImpl());
-    }
 }

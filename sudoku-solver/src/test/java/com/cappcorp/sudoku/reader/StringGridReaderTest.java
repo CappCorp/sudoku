@@ -30,7 +30,7 @@ public class StringGridReaderTest {
 
     private void readSimpleGrid(boolean isMultiLine, boolean hasSeparators) {
         int[][] values = ReaderTestHelper.buildSimpleIntGrid(4);
-        Universe universe = new Universe(4);
+        Universe universe = Universe.fromCardinal(4);
 
         StringBuilder builder = new StringBuilder();
         int lineLength = 4 + 3;

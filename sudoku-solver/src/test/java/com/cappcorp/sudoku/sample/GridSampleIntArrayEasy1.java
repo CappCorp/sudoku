@@ -1,11 +1,9 @@
 package com.cappcorp.sudoku.sample;
 
-import org.junit.Test;
-
+import com.cappcorp.sudoku.model.Universe;
 import com.cappcorp.sudoku.reader.IntArrayGridReader;
-import com.cappcorp.sudoku.resolver.GridResolverImpl;
 
-public class GridSampleIntArrayEasy1 extends GridSampleIntArray {
+public class GridSampleIntArrayEasy1 extends GridSampleSingleType<int[][]> {
 
     private static final int U = IntArrayGridReader.UNKNOWN;
 
@@ -40,11 +38,7 @@ public class GridSampleIntArrayEasy1 extends GridSampleIntArray {
 // @formatter:on
 
     public GridSampleIntArrayEasy1() {
-        super(9, INITIAL, SOLUTION);
+        super(Universe.fromCardinal(9), new IntArrayGridReader(Universe.fromCardinal(9)), INITIAL, SOLUTION);
     }
 
-    @Test
-    public void withGridResolverImpl() {
-        resolveAndAssert(new GridResolverImpl());
-    }
 }

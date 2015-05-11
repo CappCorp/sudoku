@@ -229,7 +229,7 @@ public class GridCheckerTest {
 
     Universe computeUniverse(String gridString) {
         int cardinal = (int) Math.sqrt(gridString.length());
-        return new Universe(cardinal);
+        return Universe.fromCardinal(cardinal);
     }
 
     private ReadableGrid readGrid(String gridString, Universe universe) {

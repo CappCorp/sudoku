@@ -18,7 +18,7 @@ public class StringGridReader implements GridReader<String> {
     }
 
     public StringGridReader(int cardinal, boolean isMultiLine, boolean hasSeparators) {
-        this(new Universe(cardinal), isMultiLine, hasSeparators);
+        this(Universe.fromCardinal(cardinal), isMultiLine, hasSeparators);
     }
 
     public StringGridReader(Universe universe, boolean isMultiLine, boolean hasSeparators) {

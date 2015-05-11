@@ -1,9 +1,5 @@
 package com.cappcorp.sudoku.sample;
 
-import org.junit.Test;
-
-import com.cappcorp.sudoku.resolver.GridResolverImpl;
-
 public class GridSampleStringRawHard1 extends GridSampleStringRaw {
 
     public static final String INITIAL =
@@ -36,8 +32,4 @@ public class GridSampleStringRawHard1 extends GridSampleStringRaw {
         super(9, INITIAL, SOLUTION);
     }
 
-    @Test
-    public void withGridResolverImpl() {
-        resolveAndAssert(new GridResolverImpl());
-    }
 }
