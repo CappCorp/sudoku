@@ -80,7 +80,7 @@ public abstract class AbstractTupleFinder {
         List<CellKey> similarCells = new ArrayList<>(possibleValues.size());
         Set<Integer> similarValues = new HashSet<>(possibleValues.size());
 
-        while (findSimilarCells(unresolvedCellKeys, possibleValues, similarValues, similarCells)) {
+        while (findSimilarCells(unresolvedCellKeys, possibleValues, similarCells, similarValues)) {
             int[] similarValuesArray = toIntArray(similarValues);
             for (CellKey cellKey : unresolvedCellKeys) {
                 Set<Integer> cellPossibleValues = possibleValues.get(cellKey);
@@ -100,7 +100,21 @@ public abstract class AbstractTupleFinder {
         return newTuplesFound;
     }
 
-    protected abstract boolean findSimilarCells(List<CellKey> unresolvedCellKeys, Map<CellKey, Set<Integer>> possibleValues, Set<Integer> similarValues,
-            List<CellKey> similarCells);
+    /**
+     * Finds similar cells and stores them and their possible values. Similar cells are a N cells for which only the N same values are possible. As a
+     * consequence, only those cells can contain those possible values and those values are not possible for other cells in the group.
+     * 
+     * @param unresolvedCellKeys
+     *            the list of cell keys for the cells that are not resolved in this group
+     * @param possibleValues
+     *            the map associated the cell keys with the values still possible for this cell key
+     * @param similarCellKeys
+     *            list to be filled of the cells with the keys of the cells for which similar values have been found
+     * @param similarValues
+     *            set to be filled with the similar values found
+     * @return <code>true</code> if similar cells have been found, <code>false</code> otherwise
+     */
+    protected abstract boolean findSimilarCells(List<CellKey> unresolvedCellKeys, Map<CellKey, Set<Integer>> possibleValues, List<CellKey> similarCellKeys,
+            Set<Integer> similarValues);
 
 }

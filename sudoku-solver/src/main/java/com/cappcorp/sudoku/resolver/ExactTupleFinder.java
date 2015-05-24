@@ -15,24 +15,25 @@ public class ExactTupleFinder extends AbstractTupleFinder {
         super(cellKeys, readableGrid, writableGrid, resolvedCells);
     }
 
-    protected boolean findSimilarCells(List<CellKey> unresolvedCellKeys, Map<CellKey, Set<Integer>> possibleValues, Set<Integer> similarValues,
-            List<CellKey> similarCells) {
+    @Override
+    protected boolean findSimilarCells(List<CellKey> unresolvedCellKeys, Map<CellKey, Set<Integer>> possibleValues, List<CellKey> similarCellKeys,
+            Set<Integer> similarValues) {
         for (int index = 0; index < unresolvedCellKeys.size() - 1; index++) {
-            similarCells.clear();
+            similarCellKeys.clear();
             similarValues.clear();
 
             CellKey cellKey = unresolvedCellKeys.get(index);
-            similarCells.add(cellKey);
+            similarCellKeys.add(cellKey);
             Set<Integer> cellPossibleValues = possibleValues.get(cellKey);
 
             for (int otherIndex = index + 1; otherIndex < unresolvedCellKeys.size(); otherIndex++) {
                 CellKey otherCellKey = unresolvedCellKeys.get(otherIndex);
                 if (cellPossibleValues.equals(possibleValues.get(otherCellKey))) {
-                    similarCells.add(otherCellKey);
+                    similarCellKeys.add(otherCellKey);
                 }
             }
 
-            int size = similarCells.size();
+            int size = similarCellKeys.size();
             if (size != 1 && size < unresolvedCellKeys.size() && size == cellPossibleValues.size()) {
                 similarValues.addAll(cellPossibleValues);
                 return true;

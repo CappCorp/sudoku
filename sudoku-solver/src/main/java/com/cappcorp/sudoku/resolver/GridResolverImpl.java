@@ -14,7 +14,7 @@ public class GridResolverImpl extends ReadWriteListenGridResolver {
         listeningGrid.addListener(resolvedCells);
 
         ResolvedValuesRemover resolvedValuesRemover = new ResolvedValuesRemover(writableGrid, resolvedCells);
-        AbstractTupleFinder tupleFinder = new ExactTupleFinder(cellKeys, readableGrid, writableGrid, resolvedCells);
+        AbstractTupleFinder tupleFinder = new PartialTupleFinder(cellKeys, readableGrid, writableGrid, resolvedCells);
 
         boolean didSomething = true;
 
