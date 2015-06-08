@@ -13,7 +13,7 @@ import com.cappcorp.sudoku.model.WritableGrid;
 import com.cappcorp.sudoku.util.CellKey;
 import com.cappcorp.sudoku.util.CellKey.CellKeys;
 
-public abstract class AbstractTupleFinder {
+public abstract class AbstractTupleFinder implements Algorithm {
 
     private static int[] toIntArray(Collection<Integer> collection) {
         int[] intArray = new int[collection.size()];
@@ -36,7 +36,8 @@ public abstract class AbstractTupleFinder {
         this.resolvedCells = resolvedCells;
     }
 
-    public boolean findGroupTuples() {
+    @Override
+    public boolean performIteration() {
         boolean newTuplesFound = false;
         int cardinal = readableGrid.getUniverse().getCardinal();
         for (int row = 0; row < cardinal; row++) {

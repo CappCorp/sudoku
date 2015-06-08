@@ -3,7 +3,7 @@ package com.cappcorp.sudoku.resolver;
 import com.cappcorp.sudoku.model.WritableGrid;
 import com.cappcorp.sudoku.util.CellKey;
 
-public class ResolvedValuesRemover {
+public class ResolvedValuesRemover implements Algorithm {
 
     private final WritableGrid writableGrid;
     private final ResolvedCells resolvedCells;
@@ -13,7 +13,8 @@ public class ResolvedValuesRemover {
         this.resolvedCells = resolvedCells;
     }
 
-    public boolean removeResolvedValues() {
+    @Override
+    public boolean performIteration() {
         boolean valuesRemoved = false;
         CellKey key;
         while ((key = resolvedCells.consumeNextNewResolvedKey()) != null) {
@@ -26,5 +27,10 @@ public class ResolvedValuesRemover {
             writableGrid.removeBoxPossibleValues(row, col, cellValue);
         }
         return valuesRemoved;
+    }
+
+    @Override
+    public String getName() {
+        return "resolved values remover";
     }
 }

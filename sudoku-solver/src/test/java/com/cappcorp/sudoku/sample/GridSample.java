@@ -7,7 +7,8 @@ import com.cappcorp.sudoku.model.Grid;
 import com.cappcorp.sudoku.model.Universe;
 import com.cappcorp.sudoku.reader.GridReader;
 import com.cappcorp.sudoku.resolver.GridResolver;
-import com.cappcorp.sudoku.resolver.GridResolverImpl;
+import com.cappcorp.sudoku.resolver.GridResolverG1;
+import com.cappcorp.sudoku.resolver.GridResolverG2;
 import com.cappcorp.sudoku.stat.StatGrid;
 import com.cappcorp.sudoku.util.CellKey.CellKeys;
 import com.cappcorp.sudoku.util.GridChecker;
@@ -67,7 +68,12 @@ public abstract class GridSample<I, O> {
     }
 
     @Test
-    public void withGridResolverImpl() {
-        resolveAndAssert(new GridResolverImpl());
+    public void withGridResolverG1() {
+        resolveAndAssert(new GridResolverG1());
+    }
+
+    @Test
+    public void withGridResolverG2() {
+        resolveAndAssert(new GridResolverG2());
     }
 }

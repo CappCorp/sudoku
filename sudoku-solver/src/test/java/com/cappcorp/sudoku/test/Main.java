@@ -1,7 +1,7 @@
 package com.cappcorp.sudoku.test;
 
 import com.cappcorp.sudoku.resolver.GridResolver;
-import com.cappcorp.sudoku.resolver.GridResolverImpl;
+import com.cappcorp.sudoku.resolver.GridResolverG2;
 import com.cappcorp.sudoku.sample.GridSample;
 import com.cappcorp.sudoku.sample.GridSampleIntArrayEasy1;
 import com.cappcorp.sudoku.stat.StatGrid;
@@ -14,7 +14,7 @@ public class Main {
 
         System.out.println(GridHelper.displayGrid(sampleEasy1.getInitialGrid()));
 
-        GridResolver resolver = new GridResolverImpl();
+        GridResolver resolver = new GridResolverG2();
         StatGrid statGrid = sampleEasy1.resolveAndAssert(resolver);
         long reads = statGrid.getReads();
         long writes = statGrid.getWrites();

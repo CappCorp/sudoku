@@ -42,4 +42,9 @@ public class ExactTupleFinder extends AbstractTupleFinder {
 
         return false;
     }
+
+    @Override
+    public String getName() {
+        return "exact tuple finder";
+    }
 }

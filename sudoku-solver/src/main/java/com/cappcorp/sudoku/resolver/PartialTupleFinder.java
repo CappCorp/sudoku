@@ -66,4 +66,9 @@ public class PartialTupleFinder extends AbstractTupleFinder {
         return isNewTuple && similarCellKeys.size() == similarValues.size();
     }
 
+    @Override
+    public String getName() {
+        return "partial tuple finder";
+    }
+
 }
