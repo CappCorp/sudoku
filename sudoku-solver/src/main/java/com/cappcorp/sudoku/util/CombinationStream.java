@@ -31,38 +31,46 @@ public class CombinationStream {
             subSet = new HashSet<T>(fullSet);
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super Set<T>> action) {
-            if (value == null) {
-                // first step, no initialization, try to go for a full set
-                if (subSet.size() == count) {
-                    // the full set is the only combination, iteration other
-                    action.accept(Collections.unmodifiableSet(subSet));
-                    return false;
-                }
-                // initializing for first value
-                nextIteration();
-            }
-
-            if (subSpliterator == null) { // returning singletons one by one
-                action.accept(Collections.singleton(value));
-            } else {
-                // generate the combinations from the sub spliterator with current value fixed as the first value of the combination
-                Set<T> set = new HashSet<>();
-                set.add(value);
-                if (subSpliterator != null && subSpliterator.tryAdvance(subSplitSet -> consumeSubSpliteratorSet(set, subSplitSet, action))) {
-                    return true;
-                }
-            }
-            if (!subSet.isEmpty() && count <= subSet.size()) {
-                // the subset is not empty and contains enough elements to fill a combination
-                nextIteration();
-                return true;
-            }
-            return false;
+        private boolean tryAdvanceSub(Consumer<? super Set<T>> action) {
+            return subSpliterator != null && subSpliterator.tryAdvance(subSplitSet -> consumeSubSpliteratorSet(subSplitSet, action));
         }
 
-        private void consumeSubSpliteratorSet(Set<T> set, Set<T> subSplitSet, Consumer<? super Set<T>> action) {
+        @Override
+        public boolean tryAdvance(Consumer<? super Set<T>> action) {
+            if (subSet.size() < count && subSpliterator == null) {
+                // not enough elements anymore to generate a combination and no sub iteration ongoing
+                return false;
+            }
+
+            if (tryAdvanceSub(action)) {
+                // still iterations to be done on sub spliterator
+                return true;
+            }
+
+            if (subSet.size() == count) {
+                // the full set is the only combination, iteration over
+                action.accept(Collections.unmodifiableSet(new HashSet<T>(subSet)));
+                // clearing to force the end of the iteration
+                subSet.clear();
+                subSpliterator = null;
+                return true;
+            }
+
+            nextIteration();
+
+            if (subSpliterator == null) { // count==1, returning singletons one by one
+                action.accept(Collections.singleton(value));
+                return true;
+            }
+            // should always yield true if we were able to create the sub spliterator anyway
+            return subSpliterator.tryAdvance(subSplitSet -> consumeSubSpliteratorSet(subSplitSet, action));
+        }
+
+        private void consumeSubSpliteratorSet(Set<T> subSplitSet, Consumer<? super Set<T>> action) {
+            Set<T> set = new HashSet<>();
+            if (value != null) {
+                set.add(value);
+            }
             set.addAll(subSplitSet);
             action.accept(Collections.unmodifiableSet(set));
         }
